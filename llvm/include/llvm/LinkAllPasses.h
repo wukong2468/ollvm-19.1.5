@@ -53,6 +53,11 @@ namespace llvm {
 class Triple;
 }
 
+namespace llvm {
+class ModulePass;
+ModulePass *createObfuscationPassManager();
+}
+
 namespace {
 struct ForcePassLinking {
   ForcePassLinking() {
@@ -145,6 +150,7 @@ struct ForcePassLinking {
     (void)llvm::createUnifyLoopExitsPass();
     (void)llvm::createFixIrreduciblePass();
     (void)llvm::createSelectOptimizePass();
+    (void)llvm::createObfuscationPassManager();
 
     (void)new llvm::ScalarEvolutionWrapperPass();
     llvm::Function::Create(nullptr, llvm::GlobalValue::ExternalLinkage)

@@ -399,6 +399,7 @@
 #include "llvm/Transforms/Vectorize/SLPVectorizer.h"
 #include "llvm/Transforms/Vectorize/SandboxVectorizer/SandboxVectorizer.h"
 #include "llvm/Transforms/Vectorize/VectorCombine.h"
+#include "../Transforms/Obfuscation-Merge/ObfuscationPassManager.h"
 #include <optional>
 
 using namespace llvm;
@@ -708,6 +709,9 @@ PassBuilder::PassBuilder(TargetMachine *TM, PipelineTuningOptions PTO,
 #include "PassRegistry.def"
         return false;
       });
+  registerOptimizerLastEPCallback([](llvm::ModulePassManager &MPM, llvm::OptimizationLevel Level, llvm::ThinOrFullLTOPhase) {
+    MPM.addPass(ObfuscationPassManagerPass());
+  });
 }
 
 void PassBuilder::registerModuleAnalyses(ModuleAnalysisManager &MAM) {
